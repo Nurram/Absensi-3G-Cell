@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Absensi3G CELL</string>
+    <string name="welcome">Welcome</string>
+    <string name="absensi_pt_3g_cell">Absensi PT. 3G CELL</string>
+    <string name="nip">NIP</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="absensi">List Absensi</string>
+    <string name="pegawai">List Pegawai</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="nama">Nama</string>
+    <string name="tambahkan">Tambahkan</string>
+    <string name="tanggal_dipilih">Tanggal dipilih</string>
+    <string name="ekspor_ke_excel">Ekspor ke excel</string>
+    <string name="logout">Logout</string>
+</resources>
