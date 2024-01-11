@@ -1,29 +1,23 @@
 package com.example.absensi3gcell.ui.admin.dashboard;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.documentfile.provider.DocumentFile;
-import androidx.fragment.app.Fragment;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.documentfile.provider.DocumentFile;
+import androidx.fragment.app.Fragment;
 
 import com.example.absensi3gcell.R;
 import com.example.absensi3gcell.databinding.ActivityAdminDashboardBinding;
@@ -41,7 +35,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +45,9 @@ import java.util.Objects;
 
 public class AdminDashboardActivity extends AppCompatActivity {
     boolean showMenu = true;
+    List<AbsensiResponse> absensiList;
+    Long startDateL;
+    Long endDateL;
     private ActivityResultLauncher<Intent> launcher; // Initialise this object in Activity.onCreate()
     private Uri baseDocumentTreeUri;
 
@@ -86,7 +82,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 int index = tab.getPosition();
                 moveFragment(fragments.get(index));
 
-                if(index == 0) {
+                if (index == 0) {
                     showMenu = true;
                     binding.fabAdd.setVisibility(View.GONE);
                 } else {
@@ -96,10 +92,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
 
         binding.fabAdd.setOnClickListener(view -> {
@@ -117,7 +115,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(showMenu) {
+        if (showMenu) {
             getMenuInflater().inflate(R.menu.admin_menu, menu);
         }
 
@@ -126,7 +124,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.admin_logout) {
+        if (item.getItemId() == R.id.admin_logout) {
             FirebaseAuth auth = FirebaseAuth.getInstance();
             auth.signOut();
 
@@ -140,10 +138,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
         return true;
     }
 
-    List<AbsensiResponse> absensiList;
-    Long startDateL;
-    Long endDateL;
-
     public void launchIntent(List<AbsensiResponse> absensiList, Long startDateL, Long endDateL) {
         this.absensiList = absensiList;
         this.startDateL = startDateL;
@@ -153,8 +147,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         launcher.launch(intent);
     }
 
-    private void exportExcel()
-    {
+    private void exportExcel() {
         //nama file adalah history-absensi.xls
         //file akan disimpna di folder Download
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -184,26 +177,26 @@ public class AdminDashboardActivity extends AppCompatActivity {
         Cell dateCell = headerRow.createCell(3);
         dateCell.setCellValue("Tanggal");
 
-        for(int i = 0; i < absensiList.size(); i++) {
-            Row row = sheet.createRow((i+1));
+        for (int i = 0; i < absensiList.size(); i++) {
+            Row row = sheet.createRow((i + 1));
             AbsensiResponse absensiResponse = absensiList.get(i);
             DocumentSnapshot karyawan = absensiResponse.getKaryawanData();
             DocumentSnapshot absen = absensiResponse.getAbsensiData();
 
-             nameCell = row.createCell(0);
+            nameCell = row.createCell(0);
             nameCell.setCellValue(karyawan.getString("name"));
 
-             nipCell = row.createCell(1);
+            nipCell = row.createCell(1);
             nipCell.setCellValue(karyawan.getString("nip"));
 
-            if(absen != null) {
-                 placeCell = row.createCell(2);
+            if (absen != null) {
+                placeCell = row.createCell(2);
                 placeCell.setCellValue(absen.getString("place"));
 
-                 locationCell = row.createCell(3);
+                locationCell = row.createCell(3);
                 locationCell.setCellValue(absen.getString("location"));
 
-                 dateCell = row.createCell(3);
+                dateCell = row.createCell(3);
                 SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.getDefault());
                 Date date = new Date(absen.getLong("absentTime"));
                 dateCell.setCellValue(format.format(date));
@@ -212,7 +205,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         try {
             ParcelFileDescriptor pfd = getContentResolver().openFileDescriptor(file.getUri(), "w");
-            FileOutputStream fileOutputStream= new FileOutputStream(pfd.getFileDescriptor());
+            FileOutputStream fileOutputStream = new FileOutputStream(pfd.getFileDescriptor());
             workbook.write(fileOutputStream);
             Log.e("EXCEL", "Writing file" + file);
 

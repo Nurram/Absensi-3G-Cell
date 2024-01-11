@@ -1,6 +1,10 @@
 package com.example.absensi3gcell.ui.admin.karyawan;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,18 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.absensi3gcell.R;
 import com.example.absensi3gcell.databinding.FragmentKaryawanBinding;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class KaryawanFragment extends Fragment {
     private FragmentKaryawanBinding binding;
@@ -55,10 +50,10 @@ public class KaryawanFragment extends Fragment {
                 .addSnapshotListener((value, error) -> {
                     setLoading(false);
 
-                    if(error != null) {
+                    if (error != null) {
                         Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        if(value != null) {
+                        if (value != null) {
                             adapter.addItems(value.getDocuments());
                         }
                     }
@@ -66,7 +61,7 @@ public class KaryawanFragment extends Fragment {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pb.setVisibility(View.VISIBLE);
             binding.rv.setVisibility(View.GONE);
         } else {

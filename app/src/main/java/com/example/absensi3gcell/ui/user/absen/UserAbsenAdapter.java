@@ -1,7 +1,6 @@
 package com.example.absensi3gcell.ui.user.absen;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +45,12 @@ public class UserAbsenAdapter extends RecyclerView.Adapter<UserAbsenAdapter.User
         return absens.size();
     }
 
+    public void addItems(List<AbsensiResponse> karyawans) {
+        this.absens.clear();
+        this.absens.addAll(karyawans);
+        notifyDataSetChanged();
+    }
+
     protected class UserAbsenHolder extends RecyclerView.ViewHolder {
         AbsensiItemBinding binding;
 
@@ -72,11 +77,5 @@ public class UserAbsenAdapter extends RecyclerView.Adapter<UserAbsenAdapter.User
 
             Glide.with(context).load(response.getAbsensiData().getString("imageUrl")).into(binding.iv);
         }
-    }
-
-    public void addItems(List<AbsensiResponse> karyawans) {
-        this.absens.clear();
-        this.absens.addAll(karyawans);
-        notifyDataSetChanged();
     }
 }

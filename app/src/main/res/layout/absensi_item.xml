@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="24dp"
     android:layout_marginVertical="12dp"
     app:cardCornerRadius="8dp">
@@ -17,44 +17,44 @@
             android:id="@+id/iv"
             android:layout_width="160dp"
             android:layout_height="match_parent"
-            tools:src="@tools:sample/backgrounds/scenic"
-            android:scaleType="centerCrop"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:layout_margin="16dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 tools:text="John Doe" />
 
             <TextView
                 android:id="@+id/tv_nip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:layout_marginBottom="8dp"
                 tools:text="12345" />
 
             <TextView
                 android:id="@+id/tv_absen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/belum_absen"
-                android:textColor="@color/white"
                 android:background="@color/red"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:text="@string/belum_absen"
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:id="@+id/ll_detail"
@@ -73,8 +73,8 @@
                     android:id="@+id/tv_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:layout_marginBottom="16dp"
+                    android:textColor="@color/black"
                     tools:text="Jl. Percobaan, Bandung, Jawa Barat" />
 
                 <TextView

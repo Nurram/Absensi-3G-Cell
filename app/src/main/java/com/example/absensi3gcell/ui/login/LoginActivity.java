@@ -1,13 +1,13 @@
 package com.example.absensi3gcell.ui.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.absensi3gcell.databinding.ActivityLoginBinding;
 import com.example.absensi3gcell.ui.admin.dashboard.AdminDashboardActivity;
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             Editable nip = binding.etNip.getText();
             Editable password = binding.etPassword.getText();
 
-            if(nip == null || nip.length() == 0 || password == null || password.length() == 0) {
+            if (nip == null || nip.length() == 0 || password == null || password.length() == 0) {
                 showToast("Mohon isi semua field!");
             } else {
                 login(nip.toString(), password.toString());
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
                     List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
-                    if(docs.isEmpty()) {
+                    if (docs.isEmpty()) {
                         setLoading(false);
                         showToast("User tidak ditemukan");
                     } else {
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent i;
 
-            if(isAdmin) {
+            if (isAdmin) {
                 i = new Intent(this, AdminDashboardActivity.class);
             } else {
                 i = new Intent(this, UserDashboardActivity.class);
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pbLogin.setVisibility(View.VISIBLE);
             binding.btnLogin.setVisibility(View.GONE);
         } else {

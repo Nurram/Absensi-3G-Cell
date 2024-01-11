@@ -6,13 +6,13 @@ public class AbsensiResponse {
     private DocumentSnapshot karyawanData;
     private DocumentSnapshot absensiData;
 
-    public DocumentSnapshot getAbsensiData() {
-        return absensiData;
-    }
-
     public AbsensiResponse(DocumentSnapshot karyawanData, DocumentSnapshot absensiData) {
         this.karyawanData = karyawanData;
         this.absensiData = absensiData;
+    }
+
+    public DocumentSnapshot getAbsensiData() {
+        return absensiData;
     }
 
     public DocumentSnapshot getKaryawanData() {

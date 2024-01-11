@@ -1,27 +1,18 @@
 package com.example.absensi3gcell.ui.user;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.absensi3gcell.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.absensi3gcell.databinding.ActivityChangePasswordBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 
 public class ChangePasswordActivity extends AppCompatActivity {
     private ActivityChangePasswordBinding binding;
@@ -37,11 +28,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
             SharedPreferences pref = getSharedPreferences("main", MODE_PRIVATE);
             String userId = pref.getString("userId", "");
 
-            if(binding.etOld.getText() == null || binding.etOld.getText().length() == 0 |
-            binding.etNew.getText() == null || binding.etNew.getText().length() == 0 ||
-            binding.etConfirmation.getText() == null || binding.etConfirmation.getText().length() == 0) {
+            if (binding.etOld.getText() == null || binding.etOld.getText().length() == 0 |
+                    binding.etNew.getText() == null || binding.etNew.getText().length() == 0 ||
+                    binding.etConfirmation.getText() == null || binding.etConfirmation.getText().length() == 0) {
                 Toast.makeText(this, "Silahkan isi semua field!", Toast.LENGTH_SHORT).show();
-            } else if(!binding.etNew.getText().toString().equals(binding.etConfirmation.getText().toString())) {
+            } else if (!binding.etNew.getText().toString().equals(binding.etConfirmation.getText().toString())) {
                 Toast.makeText(this, "Password tidak sesuai!", Toast.LENGTH_SHORT).show();
             } else {
                 setLoading(true);
@@ -84,7 +75,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pb.setVisibility(View.VISIBLE);
             binding.btn.setVisibility(View.GONE);
         } else {

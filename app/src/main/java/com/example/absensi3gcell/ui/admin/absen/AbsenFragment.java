@@ -1,74 +1,42 @@
 package com.example.absensi3gcell.ui.admin.absen;
 
-import android.Manifest;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.os.Environment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TableRow;
-import android.widget.Toast;
-
-import com.example.absensi3gcell.R;
 import com.example.absensi3gcell.databinding.FragmentAbsenBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
 import com.example.absensi3gcell.ui.admin.dashboard.AdminDashboardActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class AbsenFragment extends Fragment {
-    private FragmentAbsenBinding binding;
-
-    private Long startDate = new Date().getTime();
-    private Long endDate = new Date().getTime();
-
     private final List<AbsensiResponse> absensiList = new ArrayList<>();
     private final List<DocumentSnapshot> users = new ArrayList<>();
-
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     Calendar startCalendar = Calendar.getInstance();
     Calendar endCalendar = Calendar.getInstance();
-
+    private FragmentAbsenBinding binding;
+    private Long startDate = new Date().getTime();
+    private Long endDate = new Date().getTime();
     private AbsenAdapter adapter;
 
     @Override
@@ -180,7 +148,7 @@ public class AbsenFragment extends Fragment {
                         );
                     });
                     users.forEach(snapshot -> {
-                        if(!ids.contains(snapshot.getId())) {
+                        if (!ids.contains(snapshot.getId())) {
                             absensiList.add(
                                     new AbsensiResponse(snapshot, null)
                             );
@@ -207,7 +175,7 @@ public class AbsenFragment extends Fragment {
                     users.clear();
                     users.addAll(queryDocumentSnapshots.getDocuments());
 
-                    if(!users.isEmpty()) {
+                    if (!users.isEmpty()) {
                         filterData();
                     }
                 })
@@ -218,7 +186,7 @@ public class AbsenFragment extends Fragment {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pb.setVisibility(View.VISIBLE);
             binding.rv.setVisibility(View.GONE);
         } else {

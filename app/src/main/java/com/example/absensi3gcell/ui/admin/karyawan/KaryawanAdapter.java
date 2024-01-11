@@ -2,7 +2,6 @@ package com.example.absensi3gcell.ui.admin.karyawan;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -35,6 +34,13 @@ public class KaryawanAdapter extends RecyclerView.Adapter<KaryawanAdapter.Karyaw
         return karyawans.size();
     }
 
+    public void addItems(List<DocumentSnapshot> karyawans) {
+        this.karyawans.clear();
+        this.karyawans.addAll(karyawans);
+        Log.d("TAG", "Size: " + karyawans.size());
+        notifyDataSetChanged();
+    }
+
     protected class KaryawanHolder extends RecyclerView.ViewHolder {
         KaryawanItemBinding binding;
 
@@ -48,12 +54,5 @@ public class KaryawanAdapter extends RecyclerView.Adapter<KaryawanAdapter.Karyaw
             binding.tvNip.setText(snapshot.getString("nip"));
             Log.d("TAG", snapshot.toString());
         }
-    }
-
-    public void addItems(List<DocumentSnapshot> karyawans) {
-        this.karyawans.clear();
-        this.karyawans.addAll(karyawans);
-        Log.d("TAG", "Size: " + karyawans.size());
-        notifyDataSetChanged();
     }
 }

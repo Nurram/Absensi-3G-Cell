@@ -1,9 +1,5 @@
 package com.example.absensi3gcell.ui.user.addAbsent;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,16 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.absensi3gcell.R;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.absensi3gcell.databinding.ActivityAddAbsentBinding;
 import com.example.absensi3gcell.model.AbsensiRequest;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -72,7 +66,7 @@ public class AddAbsentActivity extends AppCompatActivity {
     private void addAbsent() {
         setLoading(true);
 
-        if(pickedImage == null ||
+        if (pickedImage == null ||
                 binding.etEmail.getText() == null ||
                 binding.etEmail.getText().length() == 0 ||
                 binding.etPassword.getText() == null ||
@@ -138,7 +132,7 @@ public class AddAbsentActivity extends AppCompatActivity {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pdAdd.setVisibility(View.VISIBLE);
             binding.btnAdd.setVisibility(View.GONE);
         } else {

@@ -96,13 +96,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_password" />
+
     <Button
         android:id="@+id/btn_add"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/tambahkan"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
+        android:text="@string/tambahkan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_password" />

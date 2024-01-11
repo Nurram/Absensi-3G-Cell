@@ -41,8 +41,8 @@
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="John Doe"
-            android:focusable="false"/>
+            android:focusable="false"
+            tools:text="John Doe" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -86,8 +86,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        android:hint="@string/tanggal_dan_jam"
         android:focusable="false"
+        android:hint="@string/tanggal_dan_jam"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_location">
@@ -97,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            tools:text="01 Januari 2024, 01:00"/>
+            tools:text="01 Januari 2024, 01:00" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
@@ -110,13 +110,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_date" />
+
     <Button
         android:id="@+id/btn_add"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/tambahkan"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="32dp"
+        android:text="@string/tambahkan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/til_date" />

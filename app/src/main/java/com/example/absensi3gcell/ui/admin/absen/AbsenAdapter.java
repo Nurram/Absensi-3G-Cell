@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.absensi3gcell.databinding.AbsensiItemBinding;
-import com.example.absensi3gcell.databinding.KaryawanItemBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -46,6 +44,12 @@ public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder>
         return absens.size();
     }
 
+    public void addItems(List<AbsensiResponse> karyawans) {
+        this.absens.clear();
+        this.absens.addAll(karyawans);
+        notifyDataSetChanged();
+    }
+
     protected class AbsenHolder extends RecyclerView.ViewHolder {
         AbsensiItemBinding binding;
 
@@ -55,7 +59,7 @@ public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder>
         }
 
         public void bind(AbsensiResponse response) {
-            if(response.getAbsensiData() != null) {
+            if (response.getAbsensiData() != null) {
                 DocumentSnapshot snapshot = response.getAbsensiData();
                 binding.tvName.setText(snapshot.getString("name"));
                 binding.tvNip.setText(snapshot.getString("nip"));
@@ -79,11 +83,5 @@ public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder>
                 binding.tvAbsen.setVisibility(View.VISIBLE);
             }
         }
-    }
-
-    public void addItems(List<AbsensiResponse> karyawans) {
-        this.absens.clear();
-        this.absens.addAll(karyawans);
-        notifyDataSetChanged();
     }
 }

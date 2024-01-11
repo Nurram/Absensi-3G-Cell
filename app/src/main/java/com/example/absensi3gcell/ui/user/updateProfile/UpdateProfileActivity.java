@@ -1,9 +1,5 @@
 package com.example.absensi3gcell.ui.user.updateProfile;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,23 +9,21 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
-import com.example.absensi3gcell.R;
 import com.example.absensi3gcell.databinding.ActivityUpdateProfileBinding;
-import com.example.absensi3gcell.ui.user.addAbsent.AddAbsentActivity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 
 public class UpdateProfileActivity extends AppCompatActivity {
     private ActivityUpdateProfileBinding binding;
     private Uri pickedImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +37,17 @@ public class UpdateProfileActivity extends AppCompatActivity {
         binding.btnAdd.setOnClickListener(view -> {
             Editable name = binding.etName.getText();
 
-            if(name != null && name.length() > 0) {
+            if (name != null && name.length() > 0) {
                 SharedPreferences pref = getSharedPreferences("main", MODE_PRIVATE);
                 String userId = pref.getString("userId", "");
 
-                if(pickedImage != null) {
+                if (pickedImage != null) {
                     FirebaseStorage storage = FirebaseStorage.getInstance();
                     storage.getReference(userId + "/profile").putFile(pickedImage)
                             .addOnSuccessListener(taskSnapshot -> {
-                              taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
-                                  updateData(name.toString(), uri, userId + "/profile");
-                              }) ;
+                                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                                    updateData(name.toString(), uri, userId + "/profile");
+                                });
                             });
                 } else {
                     updateData(name.toString(), null, null);
@@ -111,7 +105,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
                     binding.etEmail.setText(snapshot.getString("email"));
                     binding.etNip.setText(snapshot.getString("nip"));
 
-                    if(snapshot.getString("imageUrl") != null) {
+                    if (snapshot.getString("imageUrl") != null) {
                         Glide.with(this).load(snapshot.getString("imageProfile")).into(binding.ib);
                     }
                 })
@@ -123,7 +117,7 @@ public class UpdateProfileActivity extends AppCompatActivity {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pdAdd.setVisibility(View.VISIBLE);
             binding.content.setVisibility(View.GONE);
         } else {

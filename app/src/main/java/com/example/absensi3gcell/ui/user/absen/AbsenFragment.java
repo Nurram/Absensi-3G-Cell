@@ -3,6 +3,10 @@ package com.example.absensi3gcell.ui.user.absen;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,17 +14,8 @@ import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.example.absensi3gcell.R;
 import com.example.absensi3gcell.databinding.FragmentAbsen2Binding;
-import com.example.absensi3gcell.databinding.FragmentAbsenBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
-import com.example.absensi3gcell.ui.admin.absen.AbsenAdapter;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Filter;
@@ -32,19 +27,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class AbsenFragment extends Fragment {
-    private FragmentAbsen2Binding binding;
-    private DocumentSnapshot user;
     private final List<AbsensiResponse> absensiList = new ArrayList<>();
-
-    private Long startDate = new Date().getTime();
-    private Long endDate = new Date().getTime();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
     Calendar startCalendar = Calendar.getInstance();
     Calendar endCalendar = Calendar.getInstance();
-
+    private FragmentAbsen2Binding binding;
+    private DocumentSnapshot user;
+    private Long startDate = new Date().getTime();
+    private Long endDate = new Date().getTime();
     private UserAbsenAdapter adapter;
 
     @Override
@@ -136,12 +128,12 @@ public class AbsenFragment extends Fragment {
                 .addSnapshotListener((value, error) -> {
                     setLoading(false);
 
-                    if(error != null) {
+                    if (error != null) {
                         Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     } else {
                         absensiList.clear();
 
-                        if(value != null) {
+                        if (value != null) {
                             value.getDocuments().forEach(snapshot -> absensiList.add(
                                     new AbsensiResponse(user, snapshot)
                             ));
@@ -174,7 +166,7 @@ public class AbsenFragment extends Fragment {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pb.setVisibility(View.VISIBLE);
             binding.rv.setVisibility(View.GONE);
         } else {

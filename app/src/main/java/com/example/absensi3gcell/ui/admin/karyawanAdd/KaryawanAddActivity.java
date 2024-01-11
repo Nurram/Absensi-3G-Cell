@@ -1,24 +1,17 @@
 package com.example.absensi3gcell.ui.admin.karyawanAdd;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.absensi3gcell.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.absensi3gcell.databinding.ActivityKaryawanAddBinding;
 import com.example.absensi3gcell.model.KarywanAddRequest;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class KaryawanAddActivity extends AppCompatActivity {
     private ActivityKaryawanAddBinding binding;
@@ -39,15 +32,15 @@ public class KaryawanAddActivity extends AppCompatActivity {
         Editable email = binding.etEmail.getText();
         Editable password = binding.etPassword.getText();
 
-        if(
+        if (
                 nip == null ||
-                nip.length() == 0 ||
-                name == null ||
-                name.length() == 0 ||
-                email == null ||
-                email.length() == 0 ||
-                password == null ||
-                password.length() == 0
+                        nip.length() == 0 ||
+                        name == null ||
+                        name.length() == 0 ||
+                        email == null ||
+                        email.length() == 0 ||
+                        password == null ||
+                        password.length() == 0
         ) {
             Toast.makeText(this, "Silahkan isi semua field!", Toast.LENGTH_SHORT).show();
         } else {
@@ -79,7 +72,7 @@ public class KaryawanAddActivity extends AppCompatActivity {
                 .where(Filter.equalTo("nip", request.getNip()))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(queryDocumentSnapshots.getDocuments().isEmpty()) {
+                    if (queryDocumentSnapshots.getDocuments().isEmpty()) {
                         firestore
                                 .collection("users")
                                 .document(request.getId())
@@ -101,7 +94,7 @@ public class KaryawanAddActivity extends AppCompatActivity {
     }
 
     private void setLoading(Boolean loading) {
-        if(loading) {
+        if (loading) {
             binding.pdAdd.setVisibility(View.VISIBLE);
             binding.btnAdd.setVisibility(View.GONE);
         } else {
