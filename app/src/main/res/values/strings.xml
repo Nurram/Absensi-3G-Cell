@@ -15,4 +15,5 @@
     <string name="tanggal_dipilih">Tanggal dipilih</string>
     <string name="ekspor_ke_excel">Ekspor ke excel</string>
     <string name="logout">Logout</string>
+    <string name="belum_absen">Belum Absen</string>
 </resources>
