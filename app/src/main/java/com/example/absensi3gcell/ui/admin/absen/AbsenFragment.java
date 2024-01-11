@@ -1,7 +1,12 @@
 package com.example.absensi3gcell.ui.admin.absen;
 
+import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
@@ -19,6 +24,7 @@ import android.widget.Toast;
 import com.example.absensi3gcell.R;
 import com.example.absensi3gcell.databinding.FragmentAbsenBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
+import com.example.absensi3gcell.ui.admin.dashboard.AdminDashboardActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -26,6 +32,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -70,6 +82,21 @@ public class AbsenFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        startCalendar.setTimeInMillis(startDate);
+        startCalendar.set(Calendar.HOUR, 0);
+        startCalendar.set(Calendar.MINUTE, 0);
+        startCalendar.set(Calendar.SECOND, 0);
+        startCalendar.set(Calendar.MILLISECOND, 0);
+
+        endCalendar.setTimeInMillis(endDate);
+        endCalendar.set(Calendar.HOUR, 23);
+        endCalendar.set(Calendar.MINUTE, 59);
+        endCalendar.set(Calendar.SECOND, 59);
+        endCalendar.set(Calendar.MILLISECOND, 59);
+
+        startDate = startCalendar.getTimeInMillis();
+        endDate = endCalendar.getTimeInMillis();
+
         String startDateString = sdf.format(new Date(startDate));
         String endDateString = sdf.format(new Date(endDate));
 
@@ -80,9 +107,14 @@ public class AbsenFragment extends Fragment {
         binding.etDate.setOnClickListener(view1 -> pickDate());
         binding.btnSearch.setOnClickListener(view12 -> filterData());
 
-        adapter = new AbsenAdapter();
+        adapter = new AbsenAdapter(getContext());
         binding.rv.setAdapter(adapter);
         binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        binding.btn.setOnClickListener(view13 -> {
+            AdminDashboardActivity activity = (AdminDashboardActivity) getActivity();
+            activity.launchIntent(absensiList, startDate, endDate);
+        });
 
         getUsers();
     }
@@ -123,6 +155,7 @@ public class AbsenFragment extends Fragment {
     private void filterData() {
         setLoading(true);
 
+        List<String> ids = new ArrayList<>();
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore
                 .collection("absensi")
@@ -134,16 +167,24 @@ public class AbsenFragment extends Fragment {
                     absensiList.clear();
 
                     queryDocumentSnapshots.getDocuments().forEach(snapshot -> {
-                        String karyawanId = snapshot.getString("karyawanId");
-                        DocumentSnapshot karyawanData = users.stream().filter(snapshot1 ->
-                                snapshot1
-                                        .getId()
-                                        .equals(karyawanId)
+                        String karyawanId = snapshot.getString("userId");
+                        ids.add(karyawanId);
+
+                        DocumentSnapshot karyawanData = users.stream().filter(snapshot1 -> snapshot1
+                                .getId()
+                                .equals(karyawanId)
                         ).collect(Collectors.toList()).get(0);
 
                         absensiList.add(
-                                new AbsensiResponse(karyawanData, snapshot, false)
+                                new AbsensiResponse(karyawanData, snapshot)
                         );
+                    });
+                    users.forEach(snapshot -> {
+                        if(!ids.contains(snapshot.getId())) {
+                            absensiList.add(
+                                    new AbsensiResponse(snapshot, null)
+                            );
+                        }
                     });
 
                     adapter.addItems(absensiList);
@@ -160,13 +201,15 @@ public class AbsenFragment extends Fragment {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore
                 .collection("users")
-                .where(Filter.equalTo("isAdmin", false))
+                .where(Filter.equalTo("admin", false))
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     users.clear();
                     users.addAll(queryDocumentSnapshots.getDocuments());
 
-                    filterData();
+                    if(!users.isEmpty()) {
+                        filterData();
+                    }
                 })
                 .addOnFailureListener(e -> {
                     setLoading(false);
@@ -182,62 +225,5 @@ public class AbsenFragment extends Fragment {
             binding.pb.setVisibility(View.GONE);
             binding.rv.setVisibility(View.VISIBLE);
         }
-    }
-
-    private void exportExcel()
-    {
-        //nama file adalah history-absensi.xls
-        //file akan disimpna di folder Download
-        String startDate = sdf.format(startCalendar);
-        String endDate = sdf.format(endCalendar);
-
-        File file = new File(Environment.getExternalStorageDirectory().toString() + "/Download/" + "/history-absensi-" + startDate + " - " + endDate + ".xls");
-
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("Absensi");
-
-        for(int i = 0; i < absensiList.size(); i++) {
-            Row row = sheet.createRow((i+1));
-            AbsensiResponse absensiResponse = absensiList.get(i);
-            DocumentSnapshot karyawan = absensiResponse.getKaryawanData();
-            DocumentSnapshot absen = absensiResponse.getAbsensiData();
-
-            Cell nameCell = row.createCell(0);
-            nameCell.setCellValue(karyawan.getString("name"));
-
-            Cell nipCell = row.createCell(1);
-            nipCell.setCellValue(karyawan.getString("nip"));
-
-            Cell placeCell = row.createCell(2);
-            placeCell.setCellValue(absen.getString("place"));
-
-            Cell locationCell = row.createCell(3);
-            locationCell.setCellValue(absen.getString("location"));
-
-            Cell dateCell = row.createCell(3);
-            SimpleDateFormat format = new SimpleDateFormat("dd MMMM yyyy, HH:mm", Locale.getDefault());
-            Date date = new Date(absen.getLong("absentTime"));
-            dateCell.setCellValue(format.format(date));
-        }
-
-        try {
-            if (!file.exists()){
-                file.createNewFile();
-            }
-
-            FileOutputStream fileOutputStream= new FileOutputStream(file);
-            workbook.write(fileOutputStream);
-            Log.e("EXCEL", "Writing file" + file);
-
-            fileOutputStream.flush();
-            fileOutputStream.close();
-
-            Log.i("EXCEL", fileOutputStream.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("EXCEL", e.getMessage());
-        }
-
-        Toast.makeText(getContext(), "Disimpan di " + Environment.getExternalStorageDirectory().toString() + "/Download/", Toast.LENGTH_SHORT).show();
     }
 }

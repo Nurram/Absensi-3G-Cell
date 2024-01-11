@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.absensi3gcell.R;
+import com.example.absensi3gcell.databinding.FragmentAbsen2Binding;
 import com.example.absensi3gcell.databinding.FragmentAbsenBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
 import com.example.absensi3gcell.ui.admin.absen.AbsenAdapter;
@@ -34,7 +35,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AbsenFragment extends Fragment {
-    private FragmentAbsenBinding binding;
+    private FragmentAbsen2Binding binding;
     private DocumentSnapshot user;
     private final List<AbsensiResponse> absensiList = new ArrayList<>();
 
@@ -49,7 +50,7 @@ public class AbsenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAbsenBinding.inflate(getLayoutInflater());
+        binding = FragmentAbsen2Binding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -142,7 +143,7 @@ public class AbsenFragment extends Fragment {
 
                         if(value != null) {
                             value.getDocuments().forEach(snapshot -> absensiList.add(
-                                    new AbsensiResponse(user, snapshot, false)
+                                    new AbsensiResponse(user, snapshot)
                             ));
                         }
 

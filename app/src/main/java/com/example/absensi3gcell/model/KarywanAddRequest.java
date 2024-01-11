@@ -5,16 +5,14 @@ public class KarywanAddRequest {
     String nip;
     String name;
     String email;
-    String password;
 
     boolean isAdmin = false;
 
-    public KarywanAddRequest(String id, String nip, String name, String email, String password) {
+    public KarywanAddRequest(String id, String nip, String name, String email) {
         this.id = id;
         this.nip = nip;
         this.name = name;
         this.email = email;
-        this.password = password;
     }
 
     public String getId() {
@@ -33,9 +31,6 @@ public class KarywanAddRequest {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public boolean isAdmin() {
         return isAdmin;

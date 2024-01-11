@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else {
                         DocumentSnapshot snapshot = docs.get(0);
                         String email = snapshot.getString("email");
-                        boolean isAdmin = Boolean.TRUE.equals(snapshot.getBoolean("isAdmin"));
+                        boolean isAdmin = Boolean.TRUE.equals(snapshot.getBoolean("admin"));
 
                         doLogin(email, password, snapshot.getString("name"), isAdmin);
                     }

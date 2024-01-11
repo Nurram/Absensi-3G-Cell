@@ -51,7 +51,7 @@ public class KaryawanFragment extends Fragment {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore
                 .collection("users")
-                .where(Filter.equalTo("isAdmin", false))
+                .where(Filter.equalTo("admin", false))
                 .addSnapshotListener((value, error) -> {
                     setLoading(false);
 

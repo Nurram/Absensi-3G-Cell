@@ -60,7 +60,7 @@ public class KaryawanAddActivity extends AppCompatActivity {
 
                         String id = authResult.getUser().getUid();
                         KarywanAddRequest request = new KarywanAddRequest(
-                                id, nip.toString(), name.toString(), email.toString(), password.toString()
+                                id, nip.toString(), name.toString(), email.toString()
                         );
 
                         storeUserData(request);

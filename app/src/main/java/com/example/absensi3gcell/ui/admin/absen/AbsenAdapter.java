@@ -1,5 +1,6 @@
 package com.example.absensi3gcell.ui.admin.absen;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.absensi3gcell.databinding.AbsensiItemBinding;
 import com.example.absensi3gcell.databinding.KaryawanItemBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
@@ -20,6 +22,11 @@ import java.util.Locale;
 
 public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder> {
     private final List<AbsensiResponse> absens = new ArrayList<>();
+    private Context context;
+
+    public AbsenAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
@@ -39,7 +46,7 @@ public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder>
         return absens.size();
     }
 
-    protected static class AbsenHolder extends RecyclerView.ViewHolder {
+    protected class AbsenHolder extends RecyclerView.ViewHolder {
         AbsensiItemBinding binding;
 
         public AbsenHolder(AbsensiItemBinding binding) {
@@ -48,23 +55,29 @@ public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder>
         }
 
         public void bind(AbsensiResponse response) {
-            DocumentSnapshot snapshot = response.getAbsensiData();
-            binding.tvName.setText(snapshot.getString("name"));
-            binding.tvNip.setText(snapshot.getString("nip"));
-            binding.tvStore.setText(snapshot.getString("place"));
-            binding.tvLocation.setText(snapshot.getString("location"));
+            if(response.getAbsensiData() != null) {
+                DocumentSnapshot snapshot = response.getAbsensiData();
+                binding.tvName.setText(snapshot.getString("name"));
+                binding.tvNip.setText(snapshot.getString("nip"));
+                binding.tvStore.setText(snapshot.getString("place"));
+                binding.tvLocation.setText(snapshot.getString("location"));
 
-            if(response.isAbsen()) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy. HH:mm", Locale.getDefault());
+                String startDateString = sdf.format(snapshot.getLong("absentTime"));
+                binding.tvDate.setText(startDateString);
+
+                Glide.with(context).load(response.getAbsensiData().getString("imageUrl")).into(binding.iv);
+
                 binding.llDetail.setVisibility(View.VISIBLE);
                 binding.tvAbsen.setVisibility(View.GONE);
             } else {
+                DocumentSnapshot snapshot = response.getKaryawanData();
+                binding.tvName.setText(snapshot.getString("name"));
+                binding.tvNip.setText(snapshot.getString("nip"));
+
                 binding.llDetail.setVisibility(View.GONE);
                 binding.tvAbsen.setVisibility(View.VISIBLE);
             }
-
-            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy. HH:mm", Locale.getDefault());
-            String startDateString = sdf.format(snapshot.getLong("absentTime"));
-            binding.tvDate.setText(startDateString);
         }
     }
 
