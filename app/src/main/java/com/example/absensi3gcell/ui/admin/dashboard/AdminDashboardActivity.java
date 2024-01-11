@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdminDashboardActivity extends AppCompatActivity {
+    boolean showMenu = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 moveFragment(fragments.get(index));
 
                 if(index == 0) {
+                    showMenu = true;
                     binding.fabAdd.setVisibility(View.GONE);
                 } else {
+                    showMenu = false;
                     binding.fabAdd.setVisibility(View.VISIBLE);
                 }
             }
@@ -75,7 +78,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.admin_menu, menu);
+        if(showMenu) {
+            getMenuInflater().inflate(R.menu.admin_menu, menu);
+        }
+
         return true;
     }
 

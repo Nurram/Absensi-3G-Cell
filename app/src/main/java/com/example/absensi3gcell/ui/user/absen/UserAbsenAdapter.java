@@ -1,5 +1,7 @@
-package com.example.absensi3gcell.ui.admin.absen;
+package com.example.absensi3gcell.ui.user.absen;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,8 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.absensi3gcell.databinding.AbsensiItemBinding;
-import com.example.absensi3gcell.databinding.KaryawanItemBinding;
 import com.example.absensi3gcell.model.AbsensiResponse;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -18,19 +20,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder> {
+public class UserAbsenAdapter extends RecyclerView.Adapter<UserAbsenAdapter.UserAbsenHolder> {
     private final List<AbsensiResponse> absens = new ArrayList<>();
+    private Context context;
+
+    public UserAbsenAdapter(Context context) {
+        this.context = context;
+    }
 
     @NonNull
     @Override
-    public AbsenHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserAbsenHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         AbsensiItemBinding binding = AbsensiItemBinding.inflate(inflater, parent, false);
-        return new AbsenHolder(binding);
+        return new UserAbsenHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AbsenHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserAbsenHolder holder, int position) {
         holder.bind(absens.get(position));
     }
 
@@ -39,32 +46,31 @@ public class AbsenAdapter extends RecyclerView.Adapter<AbsenAdapter.AbsenHolder>
         return absens.size();
     }
 
-    protected static class AbsenHolder extends RecyclerView.ViewHolder {
+    protected class UserAbsenHolder extends RecyclerView.ViewHolder {
         AbsensiItemBinding binding;
 
-        public AbsenHolder(AbsensiItemBinding binding) {
+        public UserAbsenHolder(AbsensiItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(AbsensiResponse response) {
             DocumentSnapshot snapshot = response.getAbsensiData();
+            DocumentSnapshot snapshot1 = response.getKaryawanData();
+
             binding.tvName.setText(snapshot.getString("name"));
-            binding.tvNip.setText(snapshot.getString("nip"));
+            binding.tvNip.setText(snapshot1.getString("nip"));
             binding.tvStore.setText(snapshot.getString("place"));
             binding.tvLocation.setText(snapshot.getString("location"));
 
-            if(response.isAbsen()) {
-                binding.llDetail.setVisibility(View.VISIBLE);
-                binding.tvAbsen.setVisibility(View.GONE);
-            } else {
-                binding.llDetail.setVisibility(View.GONE);
-                binding.tvAbsen.setVisibility(View.VISIBLE);
-            }
+            binding.llDetail.setVisibility(View.VISIBLE);
+            binding.tvAbsen.setVisibility(View.GONE);
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy. HH:mm", Locale.getDefault());
-            String startDateString = sdf.format(snapshot.getLong("absentTime"));
+            String startDateString = sdf.format(new Date(snapshot.getLong("absentTime")));
             binding.tvDate.setText(startDateString);
+
+            Glide.with(context).load(response.getAbsensiData().getString("imageUrl")).into(binding.iv);
         }
     }
 

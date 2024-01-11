@@ -9,66 +9,81 @@
     app:cardCornerRadius="8dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            tools:text="John Doe" />
-
-        <TextView
-            android:id="@+id/tv_nip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"
-            tools:text="12345" />
-
-        <TextView
-            android:id="@+id/tv_absen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/belum_absen"
-            android:textColor="@color/white"
-            android:background="@color/red"
-            android:padding="8dp" />
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            tools:src="@tools:sample/backgrounds/scenic"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
 
         <LinearLayout
-            android:id="@+id/ll_detail"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_margin="16dp">
 
             <TextView
-                android:id="@+id/tv_store"
+                android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                tools:text="Toko G3" />
+                android:textStyle="bold"
+                android:textSize="18sp"
+                tools:text="John Doe" />
 
             <TextView
-                android:id="@+id/tv_location"
+                android:id="@+id/tv_nip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:layout_marginBottom="16dp"
-                tools:text="Jl. Percobaan, Bandung, Jawa Barat" />
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"
+                tools:text="12345" />
 
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_absen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/belum_absen"
+                android:textColor="@color/white"
+                android:background="@color/red"
+                android:padding="8dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
-                tools:text="01 Januari 2024, 10:00" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_store"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    tools:text="Toko G3" />
+
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="16dp"
+                    tools:text="Jl. Percobaan, Bandung, Jawa Barat" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    tools:text="01 Januari 2024, 10:00" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

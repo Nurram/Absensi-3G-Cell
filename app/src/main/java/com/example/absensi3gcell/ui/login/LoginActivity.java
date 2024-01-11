@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                         String email = snapshot.getString("email");
                         boolean isAdmin = Boolean.TRUE.equals(snapshot.getBoolean("isAdmin"));
 
-                        doLogin(email, password, isAdmin);
+                        doLogin(email, password, snapshot.getString("name"), isAdmin);
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void doLogin(String email, String password, boolean isAdmin) {
+    private void doLogin(String email, String password, String name, boolean isAdmin) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             String id = authResult.getUser().getUid();
@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             pref
                     .edit()
                     .putString("userId", id)
+                    .putString("name", name)
                     .putBoolean("isAdmin", isAdmin)
                     .apply();
 

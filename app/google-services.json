@@ -1,1 +1,29 @@
-{}
+{
+  "project_info": {
+    "project_number": "121669334343",
+    "project_id": "absensi-3g-cell",
+    "storage_bucket": "absensi-3g-cell.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121669334343:android:fcb03cc6c5450124f5c862",
+        "android_client_info": {
+          "package_name": "com.example.absensi3gcell"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcaN4thnTFjQF2M2oXy1isuSQDsA-ajw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

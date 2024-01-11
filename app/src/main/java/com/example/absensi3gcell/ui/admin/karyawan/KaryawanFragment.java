@@ -51,14 +51,16 @@ public class KaryawanFragment extends Fragment {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore
                 .collection("users")
-                .where(Filter.notEqualTo("isAdmin", false))
+                .where(Filter.equalTo("isAdmin", false))
                 .addSnapshotListener((value, error) -> {
                     setLoading(false);
 
                     if(error != null) {
                         Toast.makeText(getContext(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     } else {
-                        adapter.addItems(value.getDocuments());
+                        if(value != null) {
+                            adapter.addItems(value.getDocuments());
+                        }
                     }
                 });
     }

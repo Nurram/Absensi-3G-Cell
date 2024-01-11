@@ -82,7 +82,8 @@ public class KaryawanAddActivity extends AppCompatActivity {
                     if(queryDocumentSnapshots.getDocuments().isEmpty()) {
                         firestore
                                 .collection("users")
-                                .add(request)
+                                .document(request.getId())
+                                .set(request)
                                 .addOnSuccessListener(documentReference -> finish())
                                 .addOnFailureListener(e -> {
                                     setLoading(false);

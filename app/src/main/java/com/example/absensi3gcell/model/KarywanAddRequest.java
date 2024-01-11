@@ -17,6 +17,10 @@ public class KarywanAddRequest {
         this.password = password;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getNip() {
         return nip;
     }
